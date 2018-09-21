@@ -2,10 +2,10 @@
 var yearColors = {2000: '#8c8c8c', 2010: '#ffcc00'};
 var valueColors = ['#fcc9b5','#fa8873','#d44951','#843540'];
 var colors={0:['#fcc9b5','#fa8873','#d44951','#843540'],1:['#ccffcc','#99ff66','#009900','#336600'],2:['#ccffff','#66ffff','#33ccff','#0033cc']};
-//var colors={0:['#843540','#d44951','#fa8873','#fcc9b5'],1:['#336600','#009900','#99ff66','#ccffcc'],2:['#0033cc','#33ccff','#66ffff','#ccffff']};
 var padding = {t: 20, b: 30, l: 20, r: 20};
 var barPlotPadding = {t: 30, b: 30, l: 110, r: 10};
 var offset = 50;
+
 // legend
 var keysize = 16;
 var numRows = 1, numCols = 3;
@@ -30,9 +30,6 @@ var yScaleTop0 = d3.scaleBand()
 var yScaleTop1 = d3.scaleBand()
     .padding(0.05);
     
-    
-//var colorScale = d3.scaleQuantize()
-//    .range(valueColors);
 var colorScale = [d3.scaleQuantize().range(colors[0]),d3.scaleQuantize().range(colors[1]),d3.scaleQuantize().range(colors[2])]  
 var topCharts = [];
 for (var i = 0; i < numCols; i++) {
@@ -106,7 +103,6 @@ function(error, dataset){
           land_2010    : d3.sum(v, function(d) { return d.land_2010; })
         }; })
         .entries(dataset);
-    //console.log(countryAggregate);
     
     var countryDensity = countryAggregate.map(function (d) {
       return {
@@ -139,14 +135,12 @@ function(error, dataset){
             return Math.max(d[2000], d[2010]);
         });
     });
-    //console.log(barPlotMaxValue)
   
     for (var i = 0; i < topCharts.length; i++) {
         var chart = topCharts[i].chart;
         
         // chart title
         chart.append("text")
-          //.attr("x", 20 - barPlotPadding.l)
           .attr("y", 5 - barPlotPadding.t)
           .attr("dy", "1em")
           .style("text-anchor", "left")
@@ -194,7 +188,6 @@ function(error, dataset){
             .attr("y", function(d) { return yScaleTop1(d.key); })
             .attr("height", yScaleTop1.bandwidth())
             .attr("width", function(d){ return xScaleTop(d.value); })
-            //.attr("fill-alpha", 1.0)
             .attr("fill", function(d) { return yearColors[d.key]; });
          
     }
@@ -231,7 +224,7 @@ function(error, dataset){
    
     
     
-        //set x-domains of three columns
+    //set x-domains of three columns
     var colorMax = [15000, 5e6, 1000];
     var keys = ['density_growth', 'pop_growth', 'land_growth'];
     var xDomain = keys.map(function (v) {
@@ -241,6 +234,7 @@ function(error, dataset){
     
     for (var i = 0; i < topCharts.length; i++) {
         var chart = bottomCharts[i].chart;
+       
         //sorting based on each var.
         var sortKey = keys[i].replace('growth', '2010'); 
         var sortFunction = function(x, y){
