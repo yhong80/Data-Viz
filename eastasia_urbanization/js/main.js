@@ -326,7 +326,6 @@ function(error, dataset){
             .attr("cy", function(d, i) {return height - i * d.r/1.5; })
             .attr("r", function(d) {return d.r/3})
             .attr("class", function(d) {return "city " + d.country})
-            .attr("fill-alpha", 1.0)
             .attr("fill", function(d) { return colorScale[i](d.color) });
             
         // make legend 
